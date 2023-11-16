@@ -1,3 +1,7 @@
+leftImg8bit_trainvaltest
+*.png
+gtCoarse
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
