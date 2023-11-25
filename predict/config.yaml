@@ -1,0 +1,5 @@
+model_file: https://s3.severin.io/hslu/model_weights.pth
+
+images:
+  - https://s3.severin.io/hslu/1505513199437.jpg
+  - https://s3.severin.io/hslu/DSC08615-scaled.jpg
