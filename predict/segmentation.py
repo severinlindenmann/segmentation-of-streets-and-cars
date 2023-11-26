@@ -153,8 +153,6 @@ def predict(image, model_file_path='model_weights_epoch_1.pth'):
     input_image_transformed = np.transpose(input_tensor.squeeze(0).cpu().numpy(), (1, 2, 0))
     return input_image_transformed, colored_mask
 
-gif_link = data['gif'][0]
-
 # Streamlit app
 st.markdown(f"""# Road Traffic Segmentation
 
@@ -218,8 +216,3 @@ if example_or_own == "Own Image":
         image = Image.open(BytesIO(bytes_data))
         st.image(image, caption='Uploaded Image', use_column_width=True)
         predict_button(model_epoche)
-    
-st.subheader('Example of Training Images for each epoche')
-st.write('The following GiF shows the training process of the model.')
-markdown_text = f"![GIF]({gif_link})"
-st.markdown(markdown_text)
