@@ -25,4 +25,6 @@ To utilize this project:
 3. Refer to the documentation or code comments for guidance.
 4. Explore and adapt the model for your use case.
 
+There is a readme under the folder predict and train for more information.
+
 Feel free to contribute, open issues, or suggest improvements!
