@@ -153,6 +153,7 @@ def predict(image, model_file_path='model_weights_epoch_1.pth'):
     input_image_transformed = np.transpose(input_tensor.squeeze(0).cpu().numpy(), (1, 2, 0))
     return input_image_transformed, colored_mask
 
+gif_link = data['gif'][0]
 
 # Streamlit app
 st.markdown(f"""# Road Traffic Segmentation
@@ -193,7 +194,6 @@ col1, col2 = st.columns(2)
 example_or_own = col1.selectbox('Do you want to upload your own image or use examples?',['Example', 'Own Image'])
 col1.write('You can either upload your own image or use one of the examples. The examples are images from Munich, Zurich and Lindau, and have the same format as the images used for training the model. The Images named "real" are images from Zurich and Luzern from the real world and have a different format.')
 model_epoche = col2.selectbox('Select the model epoche',models_file_paths)
-col2.image({data['gif']}, caption="How the Epoche Performed")
 col2.write('The model epoche defines the number of training epochs. The higher the number, the better the model is trained. ')
 # print(models_file_paths)
 
@@ -219,3 +219,7 @@ if example_or_own == "Own Image":
         st.image(image, caption='Uploaded Image', use_column_width=True)
         predict_button(model_epoche)
     
+st.subheader('Example of Training Images for each epoche')
+st.write('The following GiF shows the training process of the model.')
+markdown_text = f"![GIF]({gif_link})"
+st.markdown(markdown_text)
