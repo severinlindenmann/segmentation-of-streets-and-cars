@@ -11,9 +11,9 @@ To run the application using Docker, follow these steps:
     ```
 3. Once the image is built, run the container:
     ```
-    docker run -p 8501:8501 project-name
+    docker run -p 8080:8080 project-name
     ```
-4. Access the application via a web browser at `http://localhost:8501`.
+4. Access the application via a web browser at `http://localhost:8080`.
 
 ### Python Virtual Environment
 
