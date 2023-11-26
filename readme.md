@@ -12,6 +12,9 @@ This project focuses on segmenting images of road traffic, aiming to accurately 
   - Resized to 256x256 pixels
   - Color information preserved
 
+### Example of training
+![GIF](https://s3.severin.io/hslu/segmentation.gif)
+
 ## Code Repository
 
 The [code repository](https://github.com/swisscenturion/u-net-segmentation-of-streets-and-cars) for this project contains the implementation of the segmentation model. You can explore the codebase for reference, further development, or utilization.

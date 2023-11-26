@@ -36,7 +36,3 @@ The Cityscapes dataset follows this structure:
 Download the Cityscapes dataset from [Cityscapes website](https://www.cityscapes-dataset.com).
 
 
-## Example of training
-![GIF](https://s3.severin.io/hslu/segmentation.gif)
-
-
