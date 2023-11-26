@@ -1,5 +1,12 @@
-model_file: https://s3.severin.io/hslu/model_weights.pth
+model_files:
+  - https://s3.severin.io/hslu/model_weights_epoch_1.pth
+  - https://s3.severin.io/hslu/model_weights_epoch_18.pth
 
 images:
   - https://s3.severin.io/hslu/1505513199437.jpg
   - https://s3.severin.io/hslu/DSC08615-scaled.jpg
+  - https://s3.severin.io/hslu/munich_000016_000019_leftImg8bit.png
+  - https://s3.severin.io/hslu/lindau_000008_000019_leftImg8bit.png
+  - https://s3.severin.io/hslu/zurich_000033_000019_leftImg8bit.png
+  - https://s3.severin.io/hslu/zurich_000110_000019_leftImg8bit.png
+  - https://s3.severin.io/hslu/munich_000007_000019_leftImg8bit.png
