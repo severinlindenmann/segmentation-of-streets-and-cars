@@ -155,7 +155,7 @@ def predict(image, model_file_path='model_weights_epoch_1.pth'):
 
 
 # Streamlit app
-st.markdown("""# Road Traffic Segmentation
+st.markdown(f"""# Road Traffic Segmentation
 
 The project aims to segment images of road traffic, focusing on accurately delineating various elements within these images. PyTorch was the primary framework utilized, employing the fcn_resnet101 base model. Training was conducted on the cityscapes dataset, incorporating both gtFine and leftImg8bit datasets available at [Cityscapes Dataset](https://www.cityscapes-dataset.com/).
 
@@ -193,6 +193,7 @@ col1, col2 = st.columns(2)
 example_or_own = col1.selectbox('Do you want to upload your own image or use examples?',['Example', 'Own Image'])
 col1.write('You can either upload your own image or use one of the examples. The examples are images from Munich, Zurich and Lindau, and have the same format as the images used for training the model. The Images named "real" are images from Zurich and Luzern from the real world and have a different format.')
 model_epoche = col2.selectbox('Select the model epoche',models_file_paths)
+col2.image({data['gif']}, caption="How the Epoche Performed")
 col2.write('The model epoche defines the number of training epochs. The higher the number, the better the model is trained. ')
 # print(models_file_paths)
 

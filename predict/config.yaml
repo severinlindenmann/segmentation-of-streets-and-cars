@@ -10,3 +10,5 @@ images:
   - https://s3.severin.io/hslu/zurich_000033_000019_leftImg8bit.png
   - https://s3.severin.io/hslu/zurich_000110_000019_leftImg8bit.png
   - https://s3.severin.io/hslu/munich_000007_000019_leftImg8bit.png
+gif:
+  - https://s3.severin.io/hslu/segmentation.gif
