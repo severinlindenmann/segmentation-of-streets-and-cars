@@ -12,7 +12,7 @@ This project focuses on segmenting images of road traffic, aiming to accurately 
   - Resized to 256x256 pixels
   - Color information preserved
 
-### Example of training
+### n   Example of training
 ![GIF](https://s3.severin.io/hslu/segmentation.gif)
 
 ## Code Repository
