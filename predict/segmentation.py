@@ -2,6 +2,7 @@ import streamlit as st
 from PIL import Image, ImageEnhance
 import yaml
 import torch
+import torch.nn as nn
 from torchvision import models
 import numpy as np
 from torchvision import transforms
@@ -20,6 +21,135 @@ st.set_page_config(
         "About": "Image Segmentation",
     },
 )
+
+# Define the SegNet model
+#create different operations of the network opearations of the network
+class single_conv(nn.Module):
+    def __init__(self, in_ch, out_ch):
+        super(single_conv, self).__init__()
+        # Define the layers here
+        # Note: for conv, use a padding of (1,1) so that size is maintained
+        self.conv = nn.Conv2d(in_ch, out_ch, kernel_size=3,padding = 1)
+        self.bn = nn.BatchNorm2d(out_ch,momentum = 0.1)
+        self.relu = nn.ReLU()
+    def forward(self, x):
+        # define forward operation using the layers above
+        x = self.conv(x)
+        x = self.bn(x)
+        x = self.relu(x)
+        return x
+
+class down_layer(nn.Module):
+    def __init__(self):
+        super(down_layer, self).__init__()
+        self.down = nn.MaxPool2d(kernel_size=2, stride=2, return_indices=True) # use nn.MaxPool2d( )        
+    def forward(self, x):
+        x1,idx = self.down(x)
+        return x1,idx
+
+class un_pool(nn.Module):
+    def __init__(self):
+        super(un_pool, self).__init__()       
+        self.un_pool = nn.MaxUnpool2d(kernel_size=2, stride=2) # use nn.Upsample() with mode bilinear
+        
+    
+    def forward(self, x, idx,x1):
+        #Take the indicies from maxpool layer
+        x = self.un_pool(x,idx,output_size = x1.size())
+        return x 
+
+class outconv(nn.Module):
+    def __init__(self, in_ch, out_ch):
+        super(outconv, self).__init__()
+        # 1 conv layer
+        self.conv = nn.Conv2d(in_ch, out_ch, kernel_size=3,padding = 1)
+
+    def forward(self, x):
+        # Forward conv layer
+        x = self.conv(x)
+        return x
+
+# use all above the individual operations to build the network 
+class SegNet(nn.Module):
+    def __init__(self, n_channels_in, n_classes):
+        super(SegNet, self).__init__()
+        self.conv1 = single_conv(n_channels_in,64)
+        self.conv2 = single_conv(64,64)
+        self.down1 = down_layer() # Maxpool with giving max indices to do unpooling later
+        self.conv3 = single_conv(64,128)
+        self.conv4 = single_conv(128,128)
+        self.down2 = down_layer() # Maxpool with giving max indices to do unpooling later
+        self.conv5 = single_conv(128,256)
+        self.conv6 = single_conv(256,256)
+        self.conv7 = single_conv(256,256)
+        self.down3 = down_layer() # Maxpool with giving max indices to do unpooling later
+        self.conv8 = single_conv(256,512)
+        self.conv9 = single_conv(512,512)
+        self.conv10 = single_conv(512,512)
+        self.down4 = down_layer() # Maxpool with giving max indices to do unpooling later
+        self.conv11 = single_conv(512,512)
+        self.conv12 = single_conv(512,512)
+        self.conv13 = single_conv(512,512)
+        self.down5 = down_layer()
+        self.up1 = un_pool()
+        self.conv14 = single_conv(512,512)
+        self.conv15 = single_conv(512,512)
+        self.conv16 = single_conv(512,512)
+        self.up2 = un_pool()
+        self.conv17 = single_conv(512,512)
+        self.conv18 = single_conv(512,512)
+        self.conv19 = single_conv(512,256)
+        self.up3 = un_pool()
+        self.conv20 = single_conv(256,256)
+        self.conv21 = single_conv(256,256)
+        self.conv22 = single_conv(256,128)
+        self.up4 = un_pool()
+        self.conv23 = single_conv(128,128)
+        self.conv24 = single_conv(128,64)
+        self.up5 = un_pool()
+        self.conv25 = single_conv(64,64)
+        self.outconv1 = outconv(64,n_classes)
+
+    def forward(self, x):
+        # Define forward pass
+        x1 = self.conv1(x)
+        x2 = self.conv2(x1)
+        x3,idx1 = self.down1(x2) # skip connection <-------------------------
+        x4 = self.conv3(x3)#                                                |
+        x5 = self.conv4(x4)#                                                |
+        x6,idx2 = self.down2(x5)# skip connection <-------------------      |
+        x7 = self.conv5(x6)#                                         |      |
+        x8 = self.conv6(x7)#                                         |      |
+        x9 = self.conv7(x8)#                                         |      |
+        x10,idx3 = self.down3(x9)# skip connection <-----------      |      |
+        x11 = self.conv8(x10)#                                |      |      |
+        x12 = self.conv9(x11)#                                |      |      | 
+        x13 = self.conv10(x12)#                               |      |      |
+        x14,idx4 = self.down4(x13)# skip connection <---      |      |      |
+        x15 = self.conv11(x14)#                        |      |      |      |
+        x16 = self.conv12(x15)#                        |      |      |      |
+        x17 = self.conv13(x16)#                        |      |      |      |
+        x18,idx5 = self.down5(x17)#                    |      |      |      |
+        x19 = self.up1(x18,idx5,x17)#                  |      |      |      |
+        x20 = self.conv14(x19)#                        |      |      |      |
+        x21 = self.conv15(x20)#                        |      |      |      |
+        x22 = self.conv16(x21)#                        |      |      |      |
+        x23 = self.up2(x22,idx4,x13)# skip connection <-      |      |      |
+        x24 = self.conv17(x23)#                               |      |      |
+        x25 = self.conv18(x24)#                               |      |      |
+        x26 = self.conv19(x25)#                               |      |      |
+        x27 = self.up3(x26,idx3,x9)# skip connection <---------      |      |
+        x28 = self.conv20(x27)#                                      |      |
+        x29 = self.conv21(x28)#                                      |      |
+        x30 = self.conv22(x29)#                                      |      |
+        x31 = self.up4(x30,idx2,x5)# skip connection <----------------      |                                
+        x32 = self.conv23(x31)#                                             |
+        x33 = self.conv24(x32)#                                             |
+        x34 = self.up4(x33,idx1,x2)# skip connection <-----------------------
+        x35 = self.conv25(x34)
+        x = self.outconv1(x35)
+        ## Go up back to original dimension
+        return x    
 
 # Load the YAML file
 with open('config.yaml', 'r') as file:
@@ -116,7 +246,7 @@ data_transforms = transforms.Compose([
 ])
 
 @st.cache_resource
-def load_model(model_file_path):
+def load_model_resnet(model_file_path):
     # Load the state dictionary
     state_dict = torch.load(model_file_path,map_location=torch.device('cpu'))
 
@@ -128,8 +258,28 @@ def load_model(model_file_path):
     
     return model
 
-def predict(image, model_file_path='model_weights_epoch_1.pth'):
-    model = load_model(model_file_path)
+@st.cache_resource
+def load_model_segnet(model_file_path):
+    model = SegNet(3,20) #one additional class for pixel ignored
+    model.load_state_dict(torch.load(model_file_path))
+    
+    return model
+
+@st.cache_resource
+def load_model_segnet(model_file_path):
+    # Load the state dictionary
+    state_dict = torch.load(model_file_path,map_location=torch.device('cpu'))
+
+    # Remove keys related to auxiliary classifiers from the state dictionary
+    state_dict = {k: v for k, v in state_dict.items() if 'aux_classifier' not in k}
+
+    model = models.segmentation.fcn_resnet101(weights=False, num_classes=35)
+    model.load_state_dict(state_dict, strict=False)  # Set strict=False to skip missing keys
+    
+    return model
+
+def predict_resnet(image, model_file_path='model_weights_epoch_1.pth'):
+    model = load_model_resnet(model_file_path)
     
     # Apply the necessary transformations
     input_tensor = data_transforms(image).unsqueeze(0)
@@ -156,21 +306,43 @@ def predict(image, model_file_path='model_weights_epoch_1.pth'):
 # Streamlit app
 st.markdown(f"""# Road Traffic Segmentation
 
-The project aims to segment images of road traffic, focusing on accurately delineating various elements within these images. PyTorch was the primary framework utilized, employing the fcn_resnet101 base model. Training was conducted on the cityscapes dataset, incorporating both gtFine and leftImg8bit datasets available at [Cityscapes Dataset](https://www.cityscapes-dataset.com/).
-
-## Training Details
-- **Model Used**: fcn_resnet101
-- **Dataset**: Cityscapes (gtFine, leftImg8bit)
-- **Hardware**: NVIDIA RTX 2080 with CUDA
-- **Training Time**: Approximately 20 hours
-- **Image Processing**:
-  - Resized to 256x256 pixels
-  - Color information preserved
-
-The code repository for this project is available on [GitHub](https://github.com/swisscenturion/u-net-segmentation-of-streets-and-cars). The repository contains the codebase responsible for implementing the segmentation model and serves as a reference for further exploration or utilization.
+The project aims to segment images of road traffic, focusing on accurately delineating various elements within these images. PyTorch was the primary framework utilized, employing the fcn_resnet101 base model and a custom segnet model. Training was conducted on the cityscapes dataset, incorporating both gtFine and leftImg8bit datasets available at [Cityscapes Dataset](https://www.cityscapes-dataset.com/).
 """)
 
-st.title('Image Segmentation')
+model_selection = st.selectbox(
+    'What model do you want to check out?',
+    ('resnet', 'segnet'))
+
+if model_selection == 'resnet':
+    st.markdown(f"""
+    ## Training Details
+    - **Model Used**: fcn_resnet101
+    - **Dataset**: Cityscapes (gtFine, leftImg8bit)
+    - **Hardware**: NVIDIA RTX 2080 with CUDA
+    - **Training Time**: Approximately 20 hours
+    - **Classes**: 35
+    - **Image Processing**:
+    - Resized to 256x256 pixels
+    - Color information preserved
+
+    The code repository for this project is available on [GitHub](https://github.com/swisscenturion/u-net-segmentation-of-streets-and-cars). The repository contains the codebase responsible for implementing the segmentation model and serves as a reference for further exploration or utilization.
+    """)
+elif model_selection == 'segnet':
+    st.markdown(f"""
+    ## Training Details
+    - **Model Used**: custom segnet
+    - **Dataset**: Cityscapes (gtFine, leftImg8bit)
+    - **Hardware**: NVIDIA RTX 2080 with CUDA
+    - **Training Time**: Approximately 20 hours
+    - **Classes**: 19
+    - **Image Processing**:
+    - Resized to 96x96 pixels
+    - Color information preserved
+
+    The code repository for this project is available on [GitHub](https://github.com/swisscenturion/u-net-segmentation-of-streets-and-cars). The repository contains the codebase responsible for implementing the segmentation model and serves as a reference for further exploration or utilization.
+    """)
+else:
+    pass
 
 # Function to load and display the selected image
 def display_image(image_path):
@@ -180,7 +352,7 @@ def display_image(image_path):
 
 def predict_button(model_epoche):
     if st.button('Predict', use_container_width=True):
-        input_image_transformed, colored_mask = predict(image, model_epoche)
+        input_image_transformed, colored_mask = predict_resnet(image, model_epoche)
         col1, col2 = st.columns(2)
         col1.image(input_image_transformed, caption='Preprocessed Image', use_column_width=True)
         col1.write('The image is preprocessed by resizing it to 256x256 pixels and converting it to a tensor. The model is trained on images of this size.')
@@ -189,8 +361,10 @@ def predict_button(model_epoche):
         col2.write('The model predicts a mask for the image. The mask is a 2D array with the same size as the image. Each pixel of the mask is assigned a class. The colors of the 32 possible classes are randomly assigned.')
 
 col1, col2 = st.columns(2)
+
 example_or_own = col1.selectbox('Do you want to upload your own image or use examples?',['Example', 'Own Image'])
 col1.write('You can either upload your own image or use one of the examples. The examples are images from Munich, Zurich and Lindau, and have the same format as the images used for training the model. The Images named "real" are images from Zurich and Luzern from the real world and have a different format.')
+
 model_epoche = col2.selectbox('Select the model epoche',models_file_paths)
 col2.write('The model epoche defines the number of training epochs. The higher the number, the better the model is trained. ')
 # print(models_file_paths)
