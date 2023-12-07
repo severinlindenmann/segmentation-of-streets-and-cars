@@ -1,5 +1,5 @@
 import streamlit as st
-from PIL import Image, ImageEnhance
+from PIL import Image
 import yaml
 import torch
 import torch.nn as nn
@@ -159,12 +159,12 @@ def download_model():
     # Accessing the model_file
     model_urls = data['model_files']
 
-    models_file_path = []
+    models_file_paths_resnet = []
+    models_file_paths_segnet = []
+
     for model_url in model_urls:
         # Define the local file path for the model
-
         local_model_path = os.path.basename(model_url)
-        models_file_path.append(local_model_path)
 
         # Check if the file already exists
         if os.path.exists(local_model_path):
@@ -181,11 +181,19 @@ def download_model():
 
                 # Display the local path of the downloaded model
                 print(f"Model file saved at: {local_model_path}")
-            else:
-                print("Failed to download the model")
-    return models_file_path
 
-models_file_paths = download_model()
+        # Separate URLs containing 'segnet' and 'resnet' into different lists
+        if 'segnet' in model_url.lower():
+            models_file_paths_segnet.append(local_model_path)
+        elif 'resnet' in model_url.lower():
+            models_file_paths_resnet.append(local_model_path)
+
+    return models_file_paths_resnet, models_file_paths_segnet
+
+models_file_paths_resnet, models_file_paths_segnet = download_model()
+
+# Define a dictionary to hold the model paths based on the selection
+model_paths_dict = {'resnet': models_file_paths_resnet, 'segnet': models_file_paths_segnet}
 
 def download_images(image_urls):
     images_folder = "images"
@@ -239,9 +247,15 @@ def download_images(image_urls):
 image_urls = data['images']
 image_file_paths = download_images(image_urls)
 
-# Define your data transformation (you might need to customize these)
-data_transforms = transforms.Compose([
+# Define your data transformation 
+data_transforms_256 = transforms.Compose([
     transforms.Resize((256, 256)),  # Resize images
+    transforms.ToTensor(),  # Convert to tensor
+])
+
+# Define your data transformation 
+data_transforms_96 = transforms.Compose([
+    transforms.Resize((96, 96)),  # Resize images
     transforms.ToTensor(),  # Convert to tensor
 ])
 
@@ -265,24 +279,43 @@ def load_model_segnet(model_file_path):
     
     return model
 
-@st.cache_resource
-def load_model_segnet(model_file_path):
-    # Load the state dictionary
-    state_dict = torch.load(model_file_path,map_location=torch.device('cpu'))
+def predict_segnet(image, model_file_path='model_segnet_weights_epoch_1.pth'):
+    model = load_model_segnet(model_file_path)
+    input_tensor = data_transforms_96(image).unsqueeze(0)
 
-    # Remove keys related to auxiliary classifiers from the state dictionary
-    state_dict = {k: v for k, v in state_dict.items() if 'aux_classifier' not in k}
+    model.eval()
 
-    model = models.segmentation.fcn_resnet101(weights=False, num_classes=35)
-    model.load_state_dict(state_dict, strict=False)  # Set strict=False to skip missing keys
+    with torch.no_grad():
+        output = model(input_tensor)
+    _, predicted = torch.max(output.data, 1) 
     
-    return model
+    print(predicted.shape)
+    print(predicted)
+    predicted = predicted.squeeze().cpu().numpy() 
 
-def predict_resnet(image, model_file_path='model_weights_epoch_1.pth'):
+    # Map predicted class indices to random colors
+    num_classes = 20  # Number of classes
+    height, width = predicted.shape
+    print(predicted.shape)
+    color_image = np.zeros((height, width, 3), dtype=np.uint8)
+
+    # Generate random colors for each class
+    np.random.seed(42)  # Set a seed for reproducibility
+    random_colors = np.random.randint(0, 256, size=(num_classes, 3), dtype=np.uint8)
+
+    for label in range(num_classes):
+        color_image[predicted == label] = random_colors[label]
+
+    input_image_transformed = np.transpose(input_tensor.squeeze(0).cpu().numpy(), (1, 2, 0))
+
+    return input_image_transformed, color_image
+
+
+def predict_resnet(image, model_file_path='model_resnet_weights_epoch_1.pth'):
     model = load_model_resnet(model_file_path)
     
     # Apply the necessary transformations
-    input_tensor = data_transforms(image).unsqueeze(0)
+    input_tensor = data_transforms_256(image).unsqueeze(0)
 
     # Perform prediction
     with torch.no_grad():
@@ -350,12 +383,20 @@ def display_image(image_path):
     st.image(image, caption=image_path, use_column_width=True)
     return image
 
-def predict_button(model_epoche):
+def predict_button(model_epoche,selected_image, model_selection):
     if st.button('Predict', use_container_width=True):
-        input_image_transformed, colored_mask = predict_resnet(image, model_epoche)
+        if model_selection == 'resnet':
+            input_image_transformed, colored_mask = predict_resnet(selected_image, model_epoche)
+        else:
+            input_image_transformed, colored_mask = predict_segnet(selected_image, model_epoche)
+
         col1, col2 = st.columns(2)
+
         col1.image(input_image_transformed, caption='Preprocessed Image', use_column_width=True)
-        col1.write('The image is preprocessed by resizing it to 256x256 pixels and converting it to a tensor. The model is trained on images of this size.')
+        if model_selection == 'resnet':
+            col1.write('The image is preprocessed by resizing it to 256x256 pixels and converting it to a tensor. The model is trained on images of this size.')
+        elif model_selection == 'segnet':
+            col1.write('The image is preprocessed by resizing it to 96x96 pixels and converting it to a tensor. The model is trained on images of this size.')
 
         col2.image(colored_mask, caption='Predicted Mask', use_column_width=True)
         col2.write('The model predicts a mask for the image. The mask is a 2D array with the same size as the image. Each pixel of the mask is assigned a class. The colors of the 32 possible classes are randomly assigned.')
@@ -365,9 +406,8 @@ col1, col2 = st.columns(2)
 example_or_own = col1.selectbox('Do you want to upload your own image or use examples?',['Example', 'Own Image'])
 col1.write('You can either upload your own image or use one of the examples. The examples are images from Munich, Zurich and Lindau, and have the same format as the images used for training the model. The Images named "real" are images from Zurich and Luzern from the real world and have a different format.')
 
-model_epoche = col2.selectbox('Select the model epoche',models_file_paths)
-col2.write('The model epoche defines the number of training epochs. The higher the number, the better the model is trained. ')
-# print(models_file_paths)
+# Select the model epoch based on the model_selection
+model_epoche = col2.selectbox('Select the model epoche', model_paths_dict.get(model_selection, []))
 
 if example_or_own == 'Example':
     st.subheader('Example Images')
@@ -377,16 +417,15 @@ if example_or_own == 'Example':
 
     if selected_image:
         image = display_image(selected_image)
-        predict_button(model_epoche)
+        predict_button(model_epoche, image, model_selection)
 
 if example_or_own == "Own Image":
     st.subheader('Upload own images')
     st.write('Upload your own image and click on "Predict" to see the segmentation mask.')
 
-    
     uploaded_file = st.file_uploader("Upload a File", accept_multiple_files=False, type=['png','jpg'])
     if uploaded_file:
         bytes_data = uploaded_file.read()
         image = Image.open(BytesIO(bytes_data))
         st.image(image, caption='Uploaded Image', use_column_width=True)
-        predict_button(model_epoche)
+        predict_button(model_epoche, image, model_selection)
