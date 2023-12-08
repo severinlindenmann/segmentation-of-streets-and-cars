@@ -25,6 +25,8 @@ The primary approach involves leveraging PyTorch and employing the fcn_resnet101
 Example training - segnet:
 ![GIF](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/predict/segnet_segmentation.gif)
 
+---
+
 - **Model Used**: fcn_resnet101
 - **Dataset**: Cityscapes (gtFine, leftImg8bit)
 - **Hardware**: NVIDIA RTX 2080
@@ -34,8 +36,6 @@ Example training - segnet:
   - Color information retained
 - **Classes**: 35
 - **Epoches**: We trained from epoch 1 to 36, with the 36th showing the best results. Further training might yield additional improvements.
-
----
 
 Example training - resnet:
 ![GIF](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/predict/resnet_segmentation.gif)
