@@ -275,7 +275,7 @@ def load_model_resnet(model_file_path):
 @st.cache_resource
 def load_model_segnet(model_file_path):
     model = SegNet(3,20) #one additional class for pixel ignored
-    model.load_state_dict(torch.load(model_file_path))
+    model.load_state_dict(torch.load(model_file_path,map_location=torch.device('cpu')))
     
     return model
 

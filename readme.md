@@ -19,6 +19,8 @@ The primary approach involves leveraging PyTorch and employing the fcn_resnet101
 - **Image Processing**:
   - Resize: 96x96 pixels
   - Color information retained
+- **Classes**: 19 
+- **Epoches**: We trained from epoch 1 to 35, with the 27th showing the best results. Further training might yield additional improvements.
 
 Example training - segnet:
 ![GIF](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/predict/resnet_segmentation.gif)
@@ -31,6 +33,10 @@ The validation in the gif involves using nn.CrossEntropyLoss() on 20 random samp
 - **Image Processing**:
   - Resize: 256x256 pixels
   - Color information retained
+- **Classes**: 35
+- **Epoches**: We trained from epoch 1 to 36, with the 36th showing the best results. Further training might yield additional improvements.
+
+---
 
 Example training - resnet:
 ![GIF](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/predict/resnet_segmentation.gif)

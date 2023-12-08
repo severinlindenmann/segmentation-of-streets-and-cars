@@ -163,3 +163,4 @@ cython_debug/
 #.idea/
 
 !predict/resnet_segmentation.gif
+!predict/segnet_segmentation.gif
