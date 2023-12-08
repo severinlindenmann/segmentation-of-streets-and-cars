@@ -1,19 +1,27 @@
-# Semantic Segmentation with Cityscapes Dataset
-
 ## Overview
 
-This repository contains code for training and validating semantic segmentation models using the Cityscapes dataset.
+This repository houses code specifically designed for training semantic segmentation models using the Cityscapes dataset.
 
 ## Usage
 
-- **Training**: Use the `train.ipynb` notebook to train the model. Update the file paths within the notebook to match your dataset location.
-- **Verification**: Utilize the `predict.ipynb` notebook for model verification. Adjust the file paths accordingly.
+The notebooks in this repository are executed using Python 3.9.11 and require the following modules:
+
+- opencv-python==4.8.1.78
+- torch==2.0.1
+- torchvision==0.15.2
+- numpy==1.21.2
+- Pillow==10.1.0
+- matplotlib==3.7.0
+- cv2==4.8.1.78
+
+### Training
+
+Utilize the `train_resnet.ipynb` or `train_segnet.ipynb` notebook to train your own segmentation model. Ensure to modify the data paths specified at the beginning of each notebook. Before running the notebooks, make sure to install all the required dependencies.
 
 ## Cityscapes Dataset
-
 ### Folder Structure
 
-The Cityscapes dataset follows this structure:
+The Cityscapes dataset follows this structure 
 
 - `cityscapes`
   - `gtFine`

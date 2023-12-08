@@ -1,6 +1,6 @@
 model_files:
   - https://s3.severin.io/hslu/model_resnet_weights_epoch_1.pth
-  - https://s3.severin.io/hslu/model_resnet_weights_epoch_24.pth
+  - https://s3.severin.io/hslu/model_resnet_weights_epoch_41.pth
   - https://s3.severin.io/hslu/model_segnet_weights_epoch_1.pth
   - https://s3.severin.io/hslu/model_segnet_weights_epoch_4.pth
   

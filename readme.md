@@ -1,33 +1,53 @@
-# Road Traffic Segmentation
+# Road Traffic Image Segmentation
 
-This project focuses on segmenting images of road traffic, aiming to accurately outline various elements within these images. The primary framework used is PyTorch with the fcn_resnet101 base model. The training utilized the cityscapes dataset, incorporating both gtFine and leftImg8bit datasets available at [Cityscapes Dataset](https://www.cityscapes-dataset.com/).
+This project delves into the realm of segmenting road traffic images using machine learning algorithms. 
 
 ## Overview
 
+This project, formed within the context of our project at Hochschule Luzern, is a part of our BSc studies in Mobility, Data Science, and Economics. Spearheaded by Antonio Mastroianni, Finn Schürmann, and Severin Lindenmann, its core objective is to meticulously delineate elements within road traffic visuals through segmentation methods.
+
+## Approach
+
+The primary approach involves leveraging PyTorch and employing the fcn_resnet101 base model for transfer learning. Customizing it with our dataset enables us to establish weights. Additionally, we've developed a tailored segnet model using the Cityscapes dataset, combining gtFine and leftImg8bit datasets accessible at [Cityscapes Dataset](https://www.cityscapes-dataset.com/).
+
+## Training Details
+
+- **Model Used**: Custom segnet
+- **Dataset**: Cityscapes (gtFine, leftImg8bit)
+- **Hardware**: Google Colab A100 GPU
+- **Training Time**: Approx. 10 hours
+- **Image Processing**:
+  - Resize: 96x96 pixels
+  - Color information retained
+
+Example training - segnet:
+![GIF](https://s3.severin.io/hslu/segmentation_segnet.gif)
+The validation in the gif involves using nn.CrossEntropyLoss() on 20 random samples for each epoch.
+
 - **Model Used**: fcn_resnet101
 - **Dataset**: Cityscapes (gtFine, leftImg8bit)
-- **Hardware**: NVIDIA RTX 2080 with CUDA
-- **Training Time**: Approximately 20 hours
+- **Hardware**: NVIDIA RTX 2080
+- **Training Time**: Approx. 20 hours
 - **Image Processing**:
-  - Resized to 256x256 pixels
-  - Color information preserved
+  - Resize: 256x256 pixels
+  - Color information retained
 
-### n   Example of training
-![GIF](https://s3.severin.io/hslu/segmentation.gif)
+Example training - resnet:
+![GIF](https://s3.severin.io/hslu/segmentation_resnet.gif)
+The validation in the gif involves using nn.CrossEntropyLoss() on 20 random samples for each epoch.
 
 ## Code Repository
 
-The [code repository](https://github.com/swisscenturion/u-net-segmentation-of-streets-and-cars) for this project contains the implementation of the segmentation model. You can explore the codebase for reference, further development, or utilization.
+The [code repository](https://github.com/swisscenturion/u-net-segmentation-of-streets-and-cars) holds the implementation of our segmentation model. Explore this repository for reference, further development, or to adapt the model for your specific use case.
 
-## How to Use
+## Getting Started
 
-To utilize this project:
+To make use of this project:
 
 1. Clone the repository.
-2. Install the necessary dependencies.
-3. Refer to the documentation or code comments for guidance.
-4. Explore and adapt the model for your use case.
+2. Refer to the README documentation in each folder and review comments in the Jupyter notebooks.
+3. Explore, adapt, and utilize the model according to your requirements.
 
-There is a readme under the folder predict and train for more information.
+## Demo
 
-Feel free to contribute, open issues, or suggest improvements!
+There is a demo available [here](https://segmentation.severin.io) (as long as it's running, as it may not be available indefinitely). This demo showcases the functionality of the trained models on sample data.

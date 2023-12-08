@@ -39,5 +39,5 @@ To run the application using a Python virtual environment:
 - `requirements.txt`: List of required Python packages.
 - `Dockerfile`: Configuration file for building the Docker image.
 - `README.md`: Documentation file (you're currently reading it!).
-- `config.yaml`: Configuration of model urls and images, see example. 
+- `config.yaml`: Configuration of model urls and images, see example, the required files can be created with the other notebooks
 
