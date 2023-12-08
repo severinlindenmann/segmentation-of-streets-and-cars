@@ -1,4 +1,5 @@
-## Overview
+# Overview
+
 ## Usage
 
 The notebooks in this repository are executed using Python 3.9.11 and require the following modules:
@@ -11,7 +12,6 @@ The notebooks in this repository are executed using Python 3.9.11 and require th
 - matplotlib==3.7.0
 - cv2==4.8.1.78
 
-### Predict
+## Predict
 
-to predict your results on a single image there are the notebooks predict_resnet.ipynb and predict_segnet.ipynb, the notebooks will only work if you have before trained your custom weights with the notebooks in the folder train and be sure to check the paths in the notebooks and change them to the correct one. 
-
+To predict your results on a single image, there are two notebooks available: `predict_resnet.ipynb` and `predict_segnet.ipynb`. However, these notebooks will only work if you have previously trained your custom weights using the notebooks located in the `train` folder. Ensure to verify and update the paths in the notebooks to ensure they point to the correct locations.
