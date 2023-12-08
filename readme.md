@@ -21,7 +21,7 @@ The primary approach involves leveraging PyTorch and employing the fcn_resnet101
   - Color information retained
 
 Example training - segnet:
-![GIF](https://s3.severin.io/hslu/segmentation_segnet.gif)
+![GIF](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/predict/resnet_segmentation.gif)
 The validation in the gif involves using nn.CrossEntropyLoss() on 20 random samples for each epoch.
 
 - **Model Used**: fcn_resnet101
@@ -33,7 +33,7 @@ The validation in the gif involves using nn.CrossEntropyLoss() on 20 random samp
   - Color information retained
 
 Example training - resnet:
-![GIF](https://s3.severin.io/hslu/segmentation_resnet.gif)
+![GIF](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/predict/resnet_segmentation.gif)
 The validation in the gif involves using nn.CrossEntropyLoss() on 20 random samples for each epoch.
 
 ## Code Repository
