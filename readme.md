@@ -23,7 +23,7 @@ The primary approach involves leveraging PyTorch and employing the fcn_resnet101
 - **Epoches**: We trained from epoch 1 to 35, with the 27th showing the best results. Further training might yield additional improvements.
 
 Example training - segnet:
-![GIF](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/predict/resnet_segmentation.gif)
+![GIF](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/predict/segnet_segmentation.gif)
 The validation in the gif involves using nn.CrossEntropyLoss() on 20 random samples for each epoch.
 
 - **Model Used**: fcn_resnet101
