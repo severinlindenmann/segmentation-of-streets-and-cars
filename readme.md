@@ -8,10 +8,28 @@ This project, formed within the context of our project at Hochschule Luzern, is 
 
 ## Approaches
 
-The primary approach involves leveraging PyTorch and employing the fcn_resnet101 base model for transfer learning. Customizing it with our dataset enables us to establish weights. Additionally, we've developed a tailored segnet model using the Cityscapes dataset, combining gtFine and leftImg8bit datasets accessible at [Cityscapes Dataset](https://www.cityscapes-dataset.com/). The training with fcn_resnet101 is a really long procedure. So as a second aproach we tried a U-Net, specific a SegNet.
+The primary approach involves leveraging PyTorch and employing the fcn_resnet101 base model for transfer learning. Customizing it with our dataset enables us to establish weights. Additionally, we've developed a tailored segnet model using the Cityscapes dataset, combining gtFine and leftImg8bit datasets accessible at [Cityscapes Dataset](https://www.cityscapes-dataset.com/). The training with fcn_resnet101 is a really long procedure. So as a second aproach we tried a U-Net, specific a SegNet. Implementing a SegNet contains basically an encoder and a decoder. In this architecture there are some skip-connections to save the important weights from the encoder to the decoder.
 
 ![PNG](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/images/UNET_encoder.png)
 ![PNG](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/images/UNET_decoder.png)
+
+With this architecture there are some advantages towards the common Convolutional Neural Networks:
+
+- no fully convolutional layers
+  - less parameters
+  - less runtime
+  - local informations are maintained
+  
+- weighted loss function
+  - more weights for closely linked objects
+  - the background of closely linked objects could be segmented better
+
+- robustness through data expansion
+  - spatial distortion of the image rotated or crompressed
+  - the shape of the objects is essentially retained
+
+
+
 
 ## Training Details
 
