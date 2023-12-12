@@ -6,13 +6,17 @@ This project delves into the realm of segmenting road traffic images using machi
 
 This project, formed within the context of our project at Hochschule Luzern, is a part of our BSc studies in Mobility, Data Science, and Economics. Spearheaded by Antonio Mastroianni, Finn Schürmann, and Severin Lindenmann, its core objective is to meticulously delineate elements within road traffic visuals through segmentation methods.
 
-## Approach
+## Approaches
 
-The primary approach involves leveraging PyTorch and employing the fcn_resnet101 base model for transfer learning. Customizing it with our dataset enables us to establish weights. Additionally, we've developed a tailored segnet model using the Cityscapes dataset, combining gtFine and leftImg8bit datasets accessible at [Cityscapes Dataset](https://www.cityscapes-dataset.com/).
+The primary approach involves leveraging PyTorch and employing the fcn_resnet101 base model for transfer learning. Customizing it with our dataset enables us to establish weights. Additionally, we've developed a tailored segnet model using the Cityscapes dataset, combining gtFine and leftImg8bit datasets accessible at [Cityscapes Dataset](https://www.cityscapes-dataset.com/). The training with fcn_resnet101 is a really long procedure. So as a second aproach we tried a U-Net, specific a SegNet.
+
+![PNG](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/images/UNET_encoder.png)
+![PNG](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/images/UNET_decoder.png)
 
 ## Training Details
 
 - **Model Used**: Custom segnet
+- **Numbers of Parameters**: 29454548
 - **Dataset**: Cityscapes (gtFine, leftImg8bit)
 - **Hardware**: Google Colab A100 GPU
 - **Training Time**: Approx. 10 hours
