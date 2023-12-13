@@ -27,20 +27,20 @@ The primary approach involves leveraging PyTorch and employing the fcn_resnet101
 
 With this architecture there are some advantages towards the common Convolutional Neural Networks:
 
-- No fully convolutional layers
+- No fully convolutional layers:
   - less parameters
   - less runtime
   - local informations are maintained
   
-- Weighted loss function
+- Weighted loss function:
   - more weights for closely linked objects
   - the background of closely linked objects could be segmented better
 
-- Robustness through data expansion
+- Robustness through data expansion:
   - spatial distortion of the image rotated or crompressed
   - the shape of the objects is essentially retained
 
-- Tiling-strategy
+- Tiling-strategy:
   - A tiling strategy is used to segment large images seamlessly.
   - Large images are divided into smaller tiles and a prediction is created for each tile separately. 
   - The tiles overlap, which means that some pixels in one tile are also contained in neighbouring tiles.
@@ -94,3 +94,9 @@ To make use of this project:
 ## Demo
 
 There is a demo available [here](https://segmentation.severin.io) (as long as it's running, as it may not be available indefinitely). This demo showcases the functionality of the trained models on sample data.
+
+## Sources
+
+Ronneberger, O., Fischer, P., & Brox, T. (2015). U-Net: Convolutional Networks for Biomedical Image Segmentation (arXiv:1505.04597). arXiv. http://arxiv.org/abs/1505.04597
+
+https://github.com/pa56/SegNetonCityscapes/blob/main/SegNet_on_cityscapes.ipynb
