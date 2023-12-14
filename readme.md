@@ -10,7 +10,7 @@ This project, formed within the context of our project at Hochschule Luzern, is 
 
 The primary approach involves leveraging PyTorch and employing the fcn_resnet101 base model for transfer learning. Customizing it with our dataset enables us to establish weights. Additionally, we've developed a tailored segnet model using the Cityscapes dataset, combining gtFine and leftImg8bit datasets accessible at [Cityscapes Dataset](https://www.cityscapes-dataset.com/). The training with fcn_resnet101 is a really long procedure. So as a second aproach we tried a U-Net, specific a SegNet. Implementing a SegNet contains basically an encoder and a decoder. In this architecture there are some skip-connections to save the important weights from the encoder to the decoder.
 
-![PNG](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/images/UNET_encoder.png)
+![PNG](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/images/UNET_encoder.png) 
 
 **Contracting Path (Encoder):**
 - The left part of the U-Net model is called the contracting path.
@@ -96,6 +96,12 @@ To make use of this project:
 There is a demo available [here](https://segmentation.severin.io) (as long as it's running, as it may not be available indefinitely). This demo showcases the functionality of the trained models on sample data.
 
 ## Sources
+
+Ronneberger, O., Fischer, P., & Brox, T. (2015). U-Net: Convolutional Networks for Biomedical Image Segmentation (arXiv:1505.04597). arXiv. http://arxiv.org/abs/1505.04597
+
+Dataset Overview – Cityscapes Dataset. (o. J.). Abgerufen 9. Dezember 2023, von https://www.cityscapes-dataset.com/dataset-overview/
+
+Intersection over Union (IoU) for object detection | SuperAnnotate. (o. J.). Abgerufen 8. Dezember 2023, von https://www.superannotate.com/blog/intersection-over-union-for-object-detection
 
 Ronneberger, O., Fischer, P., & Brox, T. (2015). U-Net: Convolutional Networks for Biomedical Image Segmentation (arXiv:1505.04597). arXiv. http://arxiv.org/abs/1505.04597
 
