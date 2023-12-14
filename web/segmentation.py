@@ -408,6 +408,20 @@ col1.write('You can either upload your own image or use one of the examples. The
 
 # Select the model epoch based on the model_selection
 model_epoche = col2.selectbox('Select the model epoche', model_paths_dict.get(model_selection, []))
+if model_selection == 'resnet':
+    text = '''
+    - Epoch 1: Initial training epoch for ResNet.
+    - Epoch 41: Best model for ResNet. Further training may enhance performance.
+    '''
+elif model_selection == 'segnet':
+    text = '''
+    - Epoch 1: Start of training for SegNet.
+    - Epoch 20: Optimal model for SegNet. More training could improve results.
+    - Epoch 25: Training halted due to lack of improvements.
+    - Epoch 36: Final trained epoch for SegNet without any improvements.
+    '''
+col2.markdown(text)
+
 
 if example_or_own == 'Example':
     st.subheader('Example Images')
