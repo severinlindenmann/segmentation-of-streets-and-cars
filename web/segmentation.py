@@ -365,8 +365,8 @@ elif model_selection == 'segnet':
     ## Training Details
     - **Model Used**: custom segnet
     - **Dataset**: Cityscapes (gtFine, leftImg8bit)
-    - **Hardware**: NVIDIA RTX 2080 with CUDA
-    - **Training Time**: Approximately 20 hours
+    - **Hardware**: Google Colab A100 GPU
+    - **Training Time**: Approximately 10 hours
     - **Classes**: 19
     - **Image Processing**:
     - Resized to 96x96 pixels
@@ -404,7 +404,7 @@ def predict_button(model_epoche,selected_image, model_selection):
 col1, col2 = st.columns(2)
 
 example_or_own = col1.selectbox('Do you want to upload your own image or use examples?',['Example', 'Own Image'])
-col1.write('You can either upload your own image or use one of the examples. The examples are images from Munich, Zurich and Lindau, and have the same format as the images used for training the model. The Images named "real" are images from Zurich and Luzern from the real world and have a different format.')
+col1.write('You can either upload your own image or use one of the examples. The examples are images from Munich, Zurich and Lindau, and have the same format as the images used for training the model. The Images named "real" are images from Zurich and Luzern that were not used for training and have a different format.')
 
 # Select the model epoch based on the model_selection
 model_epoche = col2.selectbox('Select the model epoche', model_paths_dict.get(model_selection, []))

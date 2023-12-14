@@ -8,6 +8,8 @@ gtCoarse
 ._.DS_Store
 .DS_Store
 *.gif
+*.mp4
+*.avi
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -164,3 +166,4 @@ cython_debug/
 
 !predict/resnet_segmentation.gif
 !predict/segnet_segmentation.gif
+!predict/resnet_video.gif
