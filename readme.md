@@ -63,6 +63,10 @@ With this architecture there are some advantages towards the common Convolutiona
 Example training - segnet:
 ![GIF](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/predict/segnet_segmentation.gif)
 
+Example prediction on a video (4fps):
+![GIF](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/predict/segnet_video.gif)
+The video has completly different format than the trained data (portrait mode) and different image quality
+
 ---
 
 - **Model Used**: fcn_resnet101
@@ -78,6 +82,10 @@ Example training - segnet:
 Example training - resnet:
 ![GIF](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/predict/resnet_segmentation.gif)
 The validation in the gif involves using nn.CrossEntropyLoss() on 20 random samples for each epoch.
+
+Example prediction on a video (4fps):
+![GIF](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/predict/resnet_video.gif)
+The video has completly different format than the trained data (portrait mode) and different image quality
 
 ## Code Repository
 

@@ -167,3 +167,4 @@ cython_debug/
 !predict/resnet_segmentation.gif
 !predict/segnet_segmentation.gif
 !predict/resnet_video.gif
+!predict/segnet_video.gif
