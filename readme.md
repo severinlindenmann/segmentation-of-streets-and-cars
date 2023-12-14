@@ -10,7 +10,21 @@ This project, formed within the context of our project at Hochschule Luzern, is 
 
 The primary approach involves leveraging PyTorch and employing the fcn_resnet101 base model for transfer learning. Customizing it with our dataset enables us to establish weights. Additionally, we've developed a tailored segnet model using the Cityscapes dataset, combining gtFine and leftImg8bit datasets accessible at [Cityscapes Dataset](https://www.cityscapes-dataset.com/). The training with fcn_resnet101 is a really long procedure. So as a second aproach we tried a U-Net, specific a SegNet. Implementing a SegNet contains basically an encoder and a decoder. In this architecture there are some skip-connections to save the important weights from the encoder to the decoder.
 
-![PNG](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/images/UNET_encoder.png) 
+## History of U-Net
+The U-Net was developed and introduced by Prof. Dr. Olaf Ronnenberger. Prof. Dr. Olaf Ronnenberger is affiliated with Albert-Ludwigs-University in Freiburg, where he serves as a group leader in the field of pattern recognition and image processing. In 2015, he and his team participated in the International Symposium on Biomedical Imaging (ISBI), showcasing the U-Net.
+
+They achieved first place in two highly challenging categories:
+- Grand Challenge for Computer-Automated Detection of Caries in Bitewing Radiography
+- Cell Tracking Challenge
+
+## Segmentation
+The U-Net is a model designed for image segmentation, a process in which each pixel is assigned to a specific class or category. An example from the won category of the Cell Tracking Challenge is as follows:
+
+![PNG](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/images/segmentation_example.png)
+
+The image depicts four sections, with sections a and c representing the input image, while sections b and d represent the segmentation results.
+
+## Architecture U-Net
 
 **Contracting Path (Encoder):**
 - The left part of the U-Net model is called the contracting path.
@@ -18,14 +32,16 @@ The primary approach involves leveraging PyTorch and employing the fcn_resnet101
 - With each downsampling, the number of feature channels is doubled. Each channel represents a specific component or feature of the overall information captured by that feature map.
   - For example, one channel might respond to the transition from dark to light on the left side of the edge, and another channel might respond to the transition from light to dark on the right side.
 
-![PNG](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/images/UNET_decoder.png)
+![PNG](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/images/UNET_encoder.png) 
 
 **Expanding Path (Decoder):**
 - The right-hand part of the U-Net model is the expanding path.
 - It consists of up-sampling the feature map, followed by a 2x2 convolution (up-convolution) to halve the feature channels.
 - The resulting feature map is concatenated with the corresponding feature map from the contracting path, allowing the network to take both local and global information into account.
 
-With this architecture there are some advantages towards the common Convolutional Neural Networks:
+![PNG](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/images/UNET_decoder.png)
+
+## The Key to Success
 
 - No fully convolutional layers:
   - less parameters
@@ -40,10 +56,17 @@ With this architecture there are some advantages towards the common Convolutiona
   - spatial distortion of the image rotated or crompressed
   - the shape of the objects is essentially retained
 
-- Tiling-strategy:
-  - A tiling strategy is used to segment large images seamlessly.
-  - Large images are divided into smaller tiles and a prediction is created for each tile separately. 
-  - The tiles overlap, which means that some pixels in one tile are also contained in neighbouring tiles.
+![PNG](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/images/key_to_sucess.png)
+
+## Evaluation Metric
+In the evaluation of segmentation results, Intersection over Union, abbreviated as IoU, is commonly employed. It assesses the accuracy of predictions by measuring the alignment of the bounding box with the ground truth field. This is achieved by dividing the area of intersection by the area of union. A higher IoU score signifies a more accurate prediction, with 1 being the highest and 0 indicating the poorest performance.
+
+![PNG](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/images/IoU.png)
+
+
+The effectiveness of the U-Net is demonstrated by Ronnenberg's results at the ISBI event. In the Cell Tracking Challenge category, the U-Net was applied to two datasets, achieving the highest IoU values of 0.9203 and 0.7756 in both datasets.
+
+![PNG](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/images/Values_IoU.png)
 
 
 
