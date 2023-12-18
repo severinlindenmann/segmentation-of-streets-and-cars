@@ -41,7 +41,8 @@ The image depicts four sections, with sections a and c representing the input im
 
 ![PNG](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/images/UNET_decoder.png)
 
-**Skip-Connections:**\n
+**Skip-Connections:**
+
 In the context of skip connections, the feature maps from the encoder component are linked to those of the decoder component. This connection is not arbitrary; rather, feature maps from corresponding layers of equal dimensions in the encoder and decoder are interconnected through skip connections. This process is commonly referred to as concatenation and it can be elucidated through elementary mathematical operations, specifically addition. Consequently, the numerical values of the feature maps are summed together. This arithmetic operation ensures the preservation of essential features discovered in the encoder component within the decoder component.
 
 ![PNG](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/images/skipconnections.png)
