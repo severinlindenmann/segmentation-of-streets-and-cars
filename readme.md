@@ -41,6 +41,11 @@ The image depicts four sections, with sections a and c representing the input im
 
 ![PNG](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/images/UNET_decoder.png)
 
+**Skip-Connections:**
+In the context of skip connections, the feature maps from the encoder component are linked to those of the decoder component. This connection is not arbitrary; rather, feature maps from corresponding layers of equal dimensions in the encoder and decoder are interconnected through skip connections. This process is commonly referred to as concatenation and it can be elucidated through elementary mathematical operations, specifically addition. Consequently, the numerical values of the feature maps are summed together. This arithmetic operation ensures the preservation of essential features discovered in the encoder component within the decoder component.
+
+![PNG](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/images/skipconnections.png)
+
 ## The Key to Success
 
 - No fully convolutional layers:
@@ -128,12 +133,11 @@ There is a demo available [here](https://segmentation.severin.io) (as long as it
 
 ## Sources
 
-Ronneberger, O., Fischer, P., & Brox, T. (2015). U-Net: Convolutional Networks for Biomedical Image Segmentation (arXiv:1505.04597). arXiv. http://arxiv.org/abs/1505.04597
+Dataset Overview – Cityscapes Dataset. (n.d.). Retrieved 9 December 2023, from https://www.cityscapes-dataset.com/dataset-overview/
 
-Dataset Overview – Cityscapes Dataset. (o. J.). Abgerufen 9. Dezember 2023, von https://www.cityscapes-dataset.com/dataset-overview/
-
-Intersection over Union (IoU) for object detection | SuperAnnotate. (o. J.). Abgerufen 8. Dezember 2023, von https://www.superannotate.com/blog/intersection-over-union-for-object-detection
+Intersection over Union (IoU) for object detection | SuperAnnotate. (n.d.). Retrieved 8 December 2023, from https://www.superannotate.com/blog/intersection-over-union-for-object-detection
 
 Ronneberger, O., Fischer, P., & Brox, T. (2015). U-Net: Convolutional Networks for Biomedical Image Segmentation (arXiv:1505.04597). arXiv. http://arxiv.org/abs/1505.04597
 
-https://github.com/pa56/SegNetonCityscapes/blob/main/SegNet_on_cityscapes.ipynb
+SegNet on cityscapes. (2021, November 23). GitHub. https://github.com/pa56/SegNetonCityscapes/blob/main/SegNet_on_cityscapes.ipynb
+
