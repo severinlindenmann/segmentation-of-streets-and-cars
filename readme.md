@@ -8,7 +8,7 @@ This project, formed within the context of our project at Hochschule Luzern, is 
 
 ## Approaches
 
-The primary approach involves leveraging PyTorch and employing the fcn_resnet101 base model for transfer learning. Customizing it with our dataset enables us to establish weights. Additionally, we've developed a tailored segnet model using the Cityscapes dataset, combining gtFine and leftImg8bit datasets accessible at [Cityscapes Dataset](https://www.cityscapes-dataset.com/). The training with fcn_resnet101 is a really long procedure. So as a second aproach we tried a U-Net, specific a SegNet. Implementing a SegNet contains basically an encoder and a decoder. In this architecture there are some skip-connections to save the important weights from the encoder to the decoder.
+The primary approach involves leveraging PyTorch and employing the fcn_resnet101 base model for transfer learning. Customizing it with our dataset enables us to establish weights. Additionally, we've developed a tailored segnet model using the Cityscapes dataset, combining gtFine and leftImg8bit datasets accessible at [Cityscapes Dataset](https://www.cityscapes-dataset.com/). The training with fcn_resnet101 is a really long procedure. So as a second aproach we tried a U-Net, specific a SegNet. Implementing a SegNet contains basically an encoder and a decoder. In this architecture there are some skip-connections to save the important weights from the encoder to the decoder. In this skip-connections SegNet just merge some pooling indices. Thats why it's more efficent and it uses less memory.
 
 ## History of U-Net
 The U-Net was developed and introduced by Prof. Dr. Olaf Ronnenberger. Prof. Dr. Olaf Ronnenberger is affiliated with Albert-Ludwigs-University in Freiburg, where he serves as a group leader in the field of pattern recognition and image processing. In 2015, he and his team participated in the International Symposium on Biomedical Imaging (ISBI), showcasing the U-Net.
@@ -40,12 +40,6 @@ The image depicts four sections, with sections a and c representing the input im
 - The resulting feature map is concatenated with the corresponding feature map from the contracting path, allowing the network to take both local and global information into account.
 
 ![PNG](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/images/UNET_decoder.png)
-
-**Skip-Connections:**
-
-In the context of skip connections, the feature maps from the encoder component are linked to those of the decoder component. This connection is not arbitrary; rather, feature maps from corresponding layers of equal dimensions in the encoder and decoder are interconnected through skip connections. This process is commonly referred to as concatenation and it can be elucidated through elementary mathematical operations, specifically addition. Consequently, the numerical values of the feature maps are summed together. This arithmetic operation ensures the preservation of essential features discovered in the encoder component within the decoder component.
-
-![PNG](https://github.com/swisscenturion/segmentation-of-streets-and-cars/blob/main/images/skipconnections.png)
 
 ## The Key to Success
 
@@ -134,11 +128,12 @@ There is a demo available [here](https://segmentation.severin.io) (as long as it
 
 ## Sources
 
-Dataset Overview – Cityscapes Dataset. (n.d.). Retrieved 9 December 2023, from https://www.cityscapes-dataset.com/dataset-overview/
+Ronneberger, O., Fischer, P., & Brox, T. (2015). U-Net: Convolutional Networks for Biomedical Image Segmentation (arXiv:1505.04597). arXiv. http://arxiv.org/abs/1505.04597
 
-Intersection over Union (IoU) for object detection | SuperAnnotate. (n.d.). Retrieved 8 December 2023, from https://www.superannotate.com/blog/intersection-over-union-for-object-detection
+Dataset Overview – Cityscapes Dataset. (o. J.). Abgerufen 9. Dezember 2023, von https://www.cityscapes-dataset.com/dataset-overview/
+
+Intersection over Union (IoU) for object detection | SuperAnnotate. (o. J.). Abgerufen 8. Dezember 2023, von https://www.superannotate.com/blog/intersection-over-union-for-object-detection
 
 Ronneberger, O., Fischer, P., & Brox, T. (2015). U-Net: Convolutional Networks for Biomedical Image Segmentation (arXiv:1505.04597). arXiv. http://arxiv.org/abs/1505.04597
 
-SegNet on cityscapes. (2021, November 23). GitHub. https://github.com/pa56/SegNetonCityscapes/blob/main/SegNet_on_cityscapes.ipynb
-
+https://github.com/pa56/SegNetonCityscapes/blob/main/SegNet_on_cityscapes.ipynb
