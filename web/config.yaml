@@ -1,16 +1,16 @@
 model_files:
-  - https://s3.severin.io/hslu/model_resnet_weights_epoch_1.pth
-  - https://s3.severin.io/hslu/model_resnet_weights_epoch_41.pth
-  - https://s3.severin.io/hslu/model_segnet_weights_epoch_1.pth
-  - https://s3.severin.io/hslu/model_segnet_weights_epoch_20.pth
-  - https://s3.severin.io/hslu/model_segnet_weights_epoch_25.pth
-  - https://s3.severin.io/hslu/model_segnet_weights_epoch_36.pth
+  - https://storage.cloud.google.com/seli-internal-bucket-001/model_resnet_weights_epoch_1.pth
+  - https://storage.cloud.google.com/seli-internal-bucket-001/model_resnet_weights_epoch_41.pth
+  - https://storage.cloud.google.com/seli-internal-bucket-001/model_segnet_weights_epoch_1.pth
+  - https://storage.cloud.google.com/seli-internal-bucket-001/model_segnet_weights_epoch_20.pth
+  - https://storage.cloud.google.com/seli-internal-bucket-001/model_segnet_weights_epoch_25.pth
+  - https://storage.cloud.google.com/seli-internal-bucket-001/model_segnet_weights_epoch_36.pth
   
 images:
-  - https://s3.severin.io/hslu/1505513199437.jpg
-  - https://s3.severin.io/hslu/DSC08615-scaled.jpg
-  - https://s3.severin.io/hslu/munich_000016_000019_leftImg8bit.png
-  - https://s3.severin.io/hslu/lindau_000008_000019_leftImg8bit.png
-  - https://s3.severin.io/hslu/zurich_000033_000019_leftImg8bit.png
-  - https://s3.severin.io/hslu/zurich_000110_000019_leftImg8bit.png
-  - https://s3.severin.io/hslu/munich_000007_000019_leftImg8bit.png
+  - https://storage.cloud.google.com/seli-internal-bucket-001/1505513199437.jpg
+  - https://storage.cloud.google.com/seli-internal-bucket-001/DSC08615-scaled.jpg
+  - https://storage.cloud.google.com/seli-internal-bucket-001/munich_000016_000019_leftImg8bit.png
+  - https://storage.cloud.google.com/seli-internal-bucket-001/lindau_000008_000019_leftImg8bit.png
+  - https://storage.cloud.google.com/seli-internal-bucket-001/zurich_000033_000019_leftImg8bit.png
+  - https://storage.cloud.google.com/seli-internal-bucket-001/zurich_000110_000019_leftImg8bit.png
+  - https://storage.cloud.google.com/seli-internal-bucket-001/munich_000007_000019_leftImg8bit.png
